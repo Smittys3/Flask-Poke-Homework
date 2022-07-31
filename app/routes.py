@@ -28,7 +28,7 @@ def searchPokemon():
                 'defense' : data['stats'][2]['base_stat']
                 }
         else:
-            return "Sorry not a Pokeman. PLease try again."
+            return "Sorry not a Pokeman. Please try again."
 
 
 
