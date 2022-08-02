@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from .forms import EditProfile
+from flask_login import current_user, login_required
 from app.models import User
- 
+
 from app.models import db
+from .forms import EditProfileForm
 
 prof = Blueprint('prof', __name__, template_folder='profiletemplates')
 
@@ -13,16 +14,15 @@ def userProfile():
 
 @prof.route('/editprofile', methods=["GET", "POST"])
 def editProfile():
-    form = EditProfile()
+    form = EditProfileForm()
+    # add/edit user to database
+    user = User.query.filter_by(id = current_user.id).first()
     if request.method == "POST":
         print('POST request made')
         if form.validate():
             username = form.username.data
             email = form.email.data
             password = form.password.data
-
-            # add user to database
-            user = User(username, email, password)
 
             # add instance to our db
             db.session.add(user)

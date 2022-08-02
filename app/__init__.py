@@ -6,7 +6,7 @@ from .models import db
 
 # import blueprints
 from .auth.routes import auth
-# from .ig.routes import ig
+from .prof.routes import prof
 from .models import User
 
 app = Flask(__name__)
@@ -18,12 +18,12 @@ def load_user(user_id):
 
 # register blueprints
 app.register_blueprint(auth)
-# app.register_blueprint(ig)
+app.register_blueprint(prof)
+
 
 app.config.from_object(Config)
 
 # initialize our database to work with our app
-# from .models import db
 
 db.init_app(app)
 migrate = Migrate(app, db)
