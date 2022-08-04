@@ -1,14 +1,16 @@
 from app import app
+from app.models import Pokemon, db
 from flask import render_template, request
 from app.forms import PokemonSearchForm
 import requests
+from .models import User
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route('/search', methods = ["GET", "POST"])
-def searchPokemon():
+def savePokemon():
     form = PokemonSearchForm()
     my_dict = {}
     if request.method == "POST":
@@ -18,6 +20,7 @@ def searchPokemon():
         res = requests.get(url)
         if res.ok:
             data = res.json()
+            user_pokemon = []
             my_dict = {
                 'name' : data['forms'][0]['name'],
                 'ability' : data['abilities'][0]['ability']['name'],
@@ -27,9 +30,20 @@ def searchPokemon():
                 'attack' : data['stats'][1]['base_stat'],
                 'defense' : data['stats'][2]['base_stat']
                 }
-        else:
-            return "Sorry not a Pokeman. Please try again."
+        # else:
+        #     return "Sorry not a Pokeman. Please try again."
 
+
+            name = data['name']
+            ability = data['abilities'][0]['ability']['name']
+            img_url = data['sprites']['front_shiny']
+            hp = data['stats'][0]['base_stat']
+            attack = data['stats'][1]['base_stat']
+            defense = data['stats'][2]['base_stat']
+            user_pokemon.append(my_dict)
+            pokemon = Pokemon(name, hp, defense, attack, img_url, ability)
+            db.session.add(pokemon)
+            db.session.commit()
 
 
     return render_template('searchpokemon.html', form = form, pokemon = my_dict)

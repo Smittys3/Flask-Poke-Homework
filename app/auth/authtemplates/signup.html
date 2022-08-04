@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    THIS IS THE SIGN UP PAGE
+  
     <form class="container" method="POST">
         {{ form.hidden_tag() }}
 
         {{ form.username(class='form-control', placeholder='username', autocomplete='off') }}
+        {{ form.firstname(class = 'form-control', placeholder = 'firstname', autocomplete = 'off') }}
+        {{ form.lastname(class = 'form-control', placeholder = 'lastname', autocomplete = 'off') }}
         {{ form.email(class='form-control', placeholder='email', autocomplete='off') }}
         {{ form.password(class='form-control', placeholder='password', autocomplete='off') }}
         {{ form.confirm_password(class='form-control', placeholder='confirm password', autocomplete='off') }}
