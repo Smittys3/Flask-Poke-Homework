@@ -1,5 +1,5 @@
 from app import app
-from app.models import Pokemon, db
+from app.models import Pokemon, db, User
 from flask import render_template, request
 from app.forms import PokemonSearchForm
 import requests
@@ -24,7 +24,6 @@ def savePokemon():
             my_dict = {
                 'name' : data['forms'][0]['name'],
                 'ability' : data['abilities'][0]['ability']['name'],
-                'base_exp' : data['base_experience'],
                 'img_url' : data['sprites']['front_shiny'],
                 'hp' : data['stats'][0]['base_stat'],
                 'attack' : data['stats'][1]['base_stat'],
@@ -36,13 +35,14 @@ def savePokemon():
 
             name = data['name']
             ability = data['abilities'][0]['ability']['name']
+            
             img_url = data['sprites']['front_shiny']
             hp = data['stats'][0]['base_stat']
             attack = data['stats'][1]['base_stat']
             defense = data['stats'][2]['base_stat']
             user_pokemon.append(my_dict)
-            pokemon = Pokemon(name, hp, defense, attack, img_url, ability)
-            db.session.add(pokemon)
+            poke = Pokemon(name, ability, img_url, hp, attack, defense)
+            db.session.add(poke)
             db.session.commit()
 
 

@@ -8,6 +8,7 @@ from .models import db
 from .auth.routes import auth
 from .prof.routes import prof
 from .models import User
+from .models import Pokemon
 
 app = Flask(__name__)
 login = LoginManager()
