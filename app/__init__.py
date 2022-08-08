@@ -6,7 +6,8 @@ from .models import db
 
 # import blueprints
 from .auth.routes import auth
-from .prof.routes import prof
+from .poke.routes import poke
+
 from .models import User
 from .models import Pokemon
 
@@ -19,8 +20,7 @@ def load_user(user_id):
 
 # register blueprints
 app.register_blueprint(auth)
-app.register_blueprint(prof)
-
+app.register_blueprint(poke)
 
 app.config.from_object(Config)
 
